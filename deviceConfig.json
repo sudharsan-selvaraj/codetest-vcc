@@ -1,0 +1,17 @@
+{
+  "oneplus_7T_chrome": {
+    "browserName": "chrome",
+    "deviceName": "OnePlus 7T",
+    "platformName": "Android",
+    "platformVersion": "10.0",
+    "opt:screen": "small"
+  },
+  "iphone_12_safari": {
+    "browserName": "safari",
+    "deviceName": "iPhone 12",
+    "platformName": "iOS",
+    "platformVersion": "14",
+    "automationName": "XCUITest",
+    "opt:screen": "small"
+  }
+}
