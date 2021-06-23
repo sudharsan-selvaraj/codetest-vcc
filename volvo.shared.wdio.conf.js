@@ -1,7 +1,7 @@
 const FluentElementService = require("./services/fluent-element.service");
 const {TimelineService} = require('wdio-timeline-reporter/timeline-service');
 const TimelineReporter = require('wdio-timeline-reporter').default;
-const BrowserCapabilityService = require("./services/browser-capabilities.services");
+const {BrowserCapabilityService, CapabilityOptions} = require("./services/browser-capabilities.services");
 
 exports.config = {
 
@@ -62,15 +62,14 @@ exports.config = {
         'spec'
     ],
 
-    before: (capabilities, specs) => {
+    before: (capability, specs) => {
         browser.data = require("./app-data.json");
-
-        // afterEach(async function (){
-        //     TimelineReporter.addContext( {
-        //         title: "resolution",
-        //         value: (await browser.getWindowSize())
-        //     });
-        // });
+        afterEach(function () {
+            TimelineReporter.addContext({
+                title: "screen-size",
+                value: capability[CapabilityOptions.SCREEN_SIZE]
+            });
+        });
     },
 
     jasmineOpts: {

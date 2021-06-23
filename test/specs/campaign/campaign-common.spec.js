@@ -1,4 +1,4 @@
-const CampaignPage = require('../../pageobjects/campaign.page');
+const CampaignPage = require('../../pages/campaign');
 const {click, getCurrentUrl} = require('../../utils/interactions.utils');
 
 const TimelineReporter = require('wdio-timeline-reporter').default;
@@ -13,29 +13,25 @@ describe('Volvo campaign page', () => {
         });
 
         it("should play automatically", async function () {
-            let initialTime = await CampaignPage.userVideoSection.getCurrentTime();
+            let initialTime = await CampaignPage.IntroVideoSection.getCurrentTime();
             await browser.pause(2000);
-            let currentTime = await CampaignPage.userVideoSection.getCurrentTime();
+            let currentTime = await CampaignPage.IntroVideoSection.getCurrentTime();
             expect(currentTime > initialTime)
                 .toBeTruthy(`Video is not playing. initialTime=${initialTime} and current time=${currentTime}`);
         });
 
-        it("should play the correct user story video", async function () {
-            expect(await CampaignPage.userVideoSection.getVideoSource()).toEqual(browser.data.userStoryVideoUrl);
-        });
-
         it(`should display "Watch the story" button`, async function () {
-            expect(await CampaignPage.userVideoSection.isWatchStoryButtonPresent())
+            expect(await CampaignPage.IntroVideoSection.isWatchStoryButtonPresent())
                 .toBeTruthy(`"Watch story" button is not displayed`);
         });
 
         it(`should display the youtube player on clicking "Watch the story" button`, async function () {
-            await CampaignPage.userVideoSection.clickWatchStory();
+            await CampaignPage.IntroVideoSection.clickWatchStory();
 
-            expect(await CampaignPage.userVideoSection.checkYoutubePlayerDisplayed())
+            expect(await CampaignPage.IntroVideoSection.checkYoutubePlayerDisplayed())
                 .toBeTruthy("Embeded youtube player not displayed")
 
-            expect(await CampaignPage.userVideoSection.getYoutubeVideoUrl()).toEqual(browser.data.userStoryYoutubeVideoUrl)
+            expect(await CampaignPage.IntroVideoSection.getYoutubeVideoUrl()).toEqual(browser.data.userStoryYoutubeVideoUrl)
         });
 
     });

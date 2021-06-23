@@ -1,62 +1,11 @@
-const BasePage = require("./wrappers/basepage");
-const VideoPlayer = require("./component/video-player.component");
-
-const {click, getAttribute, getHexColor, scrollIntoView, mouseHover} = require("../utils/interactions.utils");
-
-/**
- * Class representing the pageobject of Campaign page.
- */
-class CampaignPage extends BasePage {
-
-    constructor() {
-        super();
-    }
-
-    /* Sections */
-    get userVideoSection() {
-        return new UserVideoSection($id("Video-1"));
-    }
-
-    get CalloutsSection() {
-        return new CalloutsSection($id("IconCallouts-1"));
-    }
-
-    /* PageObject methods */
-
-    async open() {
-        await super.open("v/car-safety/a-million-more");
-    }
-
-}
-
-
-class CalloutsSection {
-
-    constructor(sectionElement) {
-        this.sectionElement = sectionElement;
-        this.learnAboutCarsElement = this.sectionElement.$cssContainingText("a", "Learn more about car safety");
-    }
-
-    isLearnAboutCarSafetyDisplayed() {
-        return this.learnAboutCarsElement.isDisplayed();
-    }
-
-    async getLearnAboutCarLinkColor(hover) {
-        await scrollIntoView(this.learnAboutCarsElement);
-        if (hover) {
-            await mouseHover(this.learnAboutCarsElement);
-            await browser.pause(1000);
-        }
-
-        return getHexColor(this.learnAboutCarsElement);
-    }
-}
+const VideoPlayer = require("../components/video-player.component");
+const {click, getAttribute} = require("../../../utils/interactions.utils");
 
 /**
  * Class representing the User story video container in the
  * campaign page
  */
-class UserVideoSection {
+module.exports = class IntroVideoSection {
 
     constructor(sectionElement) {
         this.sectionElement = sectionElement;
@@ -116,5 +65,3 @@ class UserVideoSection {
         return getAttribute(this.sectionElement.$css("iframe"), "src")
     }
 }
-
-module.exports = new CampaignPage();

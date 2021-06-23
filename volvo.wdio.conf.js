@@ -23,7 +23,7 @@ args.browsers.forEach(function (browser) {
             [CapabilityOptions.HEADLESS]: args.headless,
             [CapabilityOptions.SCREEN_SIZE]: screen,
             maxInstances: args.maxInstances,
-            specs: merge(args.specs, [`${TEST_ROOT_DIR}/**/*-${screen}-screen.spec.js`])
+            specs: merge(args.specs, [`${TEST_ROOT_DIR}/**/*${screen}*screen.spec.js`])
         })
     });
 });

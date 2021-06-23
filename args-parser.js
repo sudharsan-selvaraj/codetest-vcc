@@ -6,14 +6,14 @@ let isArrayContains = function (originalArray, subArray) {
 }
 
 module.exports = function (options, args) {
-    let {allowedScreens, allowedDevices, allowedBrowsers} = options;
+    let {allowedScreens, defaultSpecs, allowedBrowsers} = options;
     yargs
         .check(function (argv) {
             if (!isArrayContains(allowedScreens, argv.screens)) {
                 throw new Error(`invalid screen size provided. Allowed screens are: ${allowedScreens.join(",")}`)
-            } else if (!isArrayContains(Object.keys(allowedDevices), argv.devices)) {
-                throw new Error(`invalid device provided. Allowed devices are: ${Object.keys(allowedDevices).join(",")}`)
-            } else if (!isArrayContains(Object.keys(allowedBrowsers), argv.browsers)) {
+            } else if (!isArrayContains(Object.keys(deviceList), argv.devices)) {
+                throw new Error(`invalid device provided. Allowed devices are: ${Object.keys(deviceList).join(",")}`)
+            } else if (!isArrayContains(allowedBrowsers, argv.browsers)) {
                 throw new Error(`invalid browser provided. Allowed browsers are: ${allowedBrowsers.join(",")}`)
             }
 
@@ -30,7 +30,7 @@ module.exports = function (options, args) {
         .default("browsers", ["chrome"])
         .default("screens", ["large"])
         .default("devices", [])
-        .default("specs", DEFAULT_SPECS)
+        .default("specs", defaultSpecs)
         .default("maxInstances", 1)
         .default("headless", false)
         // parse the CLI options

@@ -1,4 +1,4 @@
-const Page = require("../wrappers/page");
+const Page = require("../../wrappers/page");
 
 module.exports = class VideoPlayer {
 

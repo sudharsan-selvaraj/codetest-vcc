@@ -1,12 +1,13 @@
 const merge = require("deepmerge");
 
-let CapabilityOptions = {
+
+exports.CapabilityOptions = {
     SCREEN_SIZE: "opt:screenSize",
     HEADLESS: "opt:headless",
     MOBILE: "opt:isMobile",
-}
+};
 
-module.exports = class BrowserCapabilityService {
+exports.BrowserCapabilityService = class BrowserCapabilityService {
 
     constructor(options, capabilities) {
         ["defaultOptions", "headlessOption", "dimensions"].forEach(o => {
@@ -24,7 +25,7 @@ module.exports = class BrowserCapabilityService {
     }
 
     async before(capability, spec, browser) {
-        let dimension = this._getDimension(capability[CapabilityOptions.SCREEN_SIZE]);
+        let dimension = this._getDimension(capability[exports.CapabilityOptions.SCREEN_SIZE]);
         if (dimension) {
             await browser.setWindowSize(dimension.width, dimension.height);
         }
@@ -33,12 +34,12 @@ module.exports = class BrowserCapabilityService {
     _processCapability(capability) {
         let browser = capability.browserName;
 
-        if (!capability[SCREEN_SIZE_OPT]) {
-            capability[SCREEN_SIZE_OPT] = "large"
+        if (!capability[exports.CapabilityOptions.SCREEN_SIZE]) {
+            capability[exports.CapabilityOptions.SCREEN_SIZE] = "large"
         }
 
         let newCapability = merge(capability, this.options.defaultOptions[browser] || {});
-        if (capability[CapabilityOptions.HEADLESS]) {
+        if (capability[exports.CapabilityOptions.HEADLESS]) {
             newCapability = merge(newCapability, this.options.headlessOptions[browser])
         }
         Object.assign(capability, newCapability);
@@ -59,5 +60,3 @@ module.exports = class BrowserCapabilityService {
         }
     }
 }
-
-exports.CapabilityOptions = CapabilityOptions;
