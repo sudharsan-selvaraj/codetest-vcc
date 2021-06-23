@@ -1,5 +1,73 @@
 {
-  "userStoryVideoUrlLarge" : "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/campaigns/volvo_amm_hero_16x9_loop_clean.mp4",
-  "userStoryVideoUrlSmall" : "https://www.volvoocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/campaigns/volvo_amm_hero_4x5_loop_clean.mp4",
-  "userStoryYoutubeVideoUrl" : "https://www.youtube.com/embed/fj_WFwVOYn8?color=white&cc_load_policy=1&rel=0&autoplay=1&cc_lang_pref=en&hl=en"
+  "campaignPage": {
+    "userStoryVideoUrlLarge": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/campaigns/volvo_amm_hero_16x9_loop_clean.mp4",
+    "userStoryVideoUrlSmall": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/campaigns/volvo_amm_hero_4x5_loop_clean.mp4",
+    "userStoryYoutubeVideoUrl": "https://www.youtube.com/embed/fj_WFwVOYn8?color=white&cc_load_policy=1&rel=0&autoplay=1&cc_lang_pref=en&hl=en",
+    "models": [
+      {
+        "category": "SUV",
+        "name": "XC90 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/xc90-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/xc90-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/suv/xc90#filterRecharge"
+      },
+      {
+        "category": "SUV",
+        "name": "XC60 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/xc60-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/xc60-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/suv/xc60#filterRecharge"
+      },
+      {
+        "category": "SUV",
+        "name": "XC40 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/xc40-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/xc40-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/suv/xc40#filterRecharge"
+      },
+      {
+        "category": "SUV",
+        "name": "XC40 Recharge",
+        "rechargeType": "pure electric",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/recharge/xc40_bev_responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/xc40-electric",
+        "shopUrl": "https://www.volvocars.com/intl/build/suv/xc40#filterElectric"
+      },
+      {
+        "category": "ESTATE",
+        "name": "V90 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/v90-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/v90-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/estate/v90#filterRecharge"
+      },
+      {
+        "category": "ESTATE",
+        "name": "V60 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/v60-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/v60-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/estate/v60#filterRecharge"
+      },
+      {
+        "category": "SEDAN",
+        "name": "S90 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/s90-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/s90-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/sedan/s90#filterRecharge"
+      },
+      {
+        "category": "SEDAN",
+        "name": "S60 Recharge",
+        "rechargeType": "plug-in hybrid",
+        "img": "https://www.volvocars.com/images/v/intl/v/-/media/project/contentplatform/data/media/my22/car-images/s60-recharge-my22-responsive.jpg?h=500&iar=0",
+        "learnUrl": "/intl/v/cars/s60-hybrid",
+        "shopUrl": "https://www.volvocars.com/intl/build/sedan/s60#filterRecharge"
+      }
+    ]
+  }
 }

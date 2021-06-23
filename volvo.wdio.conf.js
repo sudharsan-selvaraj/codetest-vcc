@@ -3,7 +3,7 @@ const parseArgs = require("./args-parser");
 const {CapabilityOptions} = require("./services/browser-capabilities.services");
 const sharedConfig = require("./volvo.shared.wdio.conf");
 
-const TEST_ROOT_DIR = "./test/specs";
+const TEST_ROOT_DIR = "./specs";
 
 const ALLOWED_SCREENS = ["large", "medium", "small"],
     ALLOWED_BROWSERS = ["chrome", "firefox", "safari"],
@@ -31,8 +31,9 @@ args.browsers.forEach(function (browser) {
 args.devices.forEach(function (device) {
     let capability = {
         maxInstances: args.maxInstances,
-        [CapabilityOptions.MOBILE]: true,
-        specs: merge(args.specs, [`.${TEST_ROOT_DIR}/**/*-${device["opt:screen"]}-screen.spec.js`])
+        [CapabilityOptions.MOBILE]: device[CapabilityOptions.MOBILE] ? device[CapabilityOptions.MOBILE] : true,
+        [CapabilityOptions.HEADLESS]: args.headless,
+        specs: merge(args.specs, [`${TEST_ROOT_DIR}/**/*${device["opt:screenSize"]}*screen.spec.js`])
     };
     capabilities.push(merge(capability, device))
 });

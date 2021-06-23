@@ -103,7 +103,11 @@ class FluentElement {
         if (this.searchContext["wrappedElement"] && typeof this.searchContext["wrappedElement"] === "function") {
             sc = await this.searchContext.wrappedElement();
         }
-        return sc.$(this.locator);
+        if(this.locator) {
+            return sc.$(this.locator);
+        } else {
+            return sc;
+        }
     }
 
 }
@@ -123,3 +127,5 @@ module.exports = class FluentElementService {
     }
 
 }
+
+module.exports.FluentElement = FluentElement;

@@ -1,10 +1,20 @@
 {
+  "chrome_iphone_6s": {
+    "browserName": "chrome",
+    "opt:screenSize": "small",
+    "opt:isMobile": "false",
+    "goog:chromeOptions": {
+      "mobileEmulation": {
+        "deviceName": "iPhone 6"
+      }
+    }
+  },
   "oneplus_7T_chrome": {
     "browserName": "chrome",
     "deviceName": "OnePlus 7T",
     "platformName": "Android",
     "platformVersion": "10.0",
-    "opt:screen": "small"
+    "opt:screenSize": "small"
   },
   "iphone_12_safari": {
     "browserName": "safari",
@@ -12,6 +22,6 @@
     "platformName": "iOS",
     "platformVersion": "14",
     "automationName": "XCUITest",
-    "opt:screen": "small"
+    "opt:screenSize": "small"
   }
 }

@@ -20,27 +20,31 @@ exports.BrowserCapabilityService = class BrowserCapabilityService {
     }
 
     onPrepare(config, capabilities) {
-        capabilities.forEach(c => this._processCapability(c));
-        console.log(capabilities);
+        capabilities.forEach(this._processCapability.bind(this));
     }
 
     async before(capability, spec, browser) {
-        let dimension = this._getDimension(capability[exports.CapabilityOptions.SCREEN_SIZE]);
-        if (dimension) {
-            await browser.setWindowSize(dimension.width, dimension.height);
+        if (capability[exports.CapabilityOptions.MOBILE] != true) {
+            let dimension = this._getDimension(capability[exports.CapabilityOptions.SCREEN_SIZE]);
+            if (dimension) {
+                await browser.setWindowSize(dimension.width, dimension.height);
+            }
         }
     }
 
     _processCapability(capability) {
         let browser = capability.browserName;
 
-        if (!capability[exports.CapabilityOptions.SCREEN_SIZE]) {
-            capability[exports.CapabilityOptions.SCREEN_SIZE] = "large"
-        }
-
         let newCapability = merge(capability, this.options.defaultOptions[browser] || {});
-        if (capability[exports.CapabilityOptions.HEADLESS]) {
-            newCapability = merge(newCapability, this.options.headlessOptions[browser])
+
+        if (newCapability[exports.CapabilityOptions.MOBILE] != true) {
+            if (!newCapability[exports.CapabilityOptions.SCREEN_SIZE]) {
+                newCapability[exports.CapabilityOptions.SCREEN_SIZE] = "large"
+            }
+
+            if (newCapability[exports.CapabilityOptions.HEADLESS]) {
+                newCapability = merge(newCapability, this.options.headlessOptions[browser])
+            }
         }
         Object.assign(capability, newCapability);
         return capability;

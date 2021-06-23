@@ -1,4 +1,5 @@
 const CampaignPage = require('../../pages/campaign');
+const data = require("./../../app-data.json");
 
 describe('Volvo campaign page', () => {
 
@@ -10,7 +11,7 @@ describe('Volvo campaign page', () => {
         });
 
         it("should play the correct user story video", async function () {
-            expect(await CampaignPage.IntroVideoSection.getVideoSource()).toEqual(browser.data.userStoryVideoUrlLarge);
+            expect(await CampaignPage.IntroVideoSection.getVideoSource()).toEqual(data.campaignPage.userStoryVideoUrlLarge);
         });
 
     });

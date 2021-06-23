@@ -63,7 +63,6 @@ exports.config = {
     ],
 
     before: (capability, specs) => {
-        browser.data = require("./app-data.json");
         afterEach(function () {
             TimelineReporter.addContext({
                 title: "screen-size",

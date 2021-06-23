@@ -1,5 +1,5 @@
 const yargs = require("yargs");
-const deviceList = require("./deviceConfig.json");
+const deviceList = require("./device-config.json");
 
 let isArrayContains = function (originalArray, subArray) {
     return subArray.reduce((includes, subArrayVal) => includes && originalArray.includes(subArrayVal), true);
@@ -27,8 +27,8 @@ module.exports = function (options, args) {
         .array("devices")
         .boolean("headless")
         //define default values
-        .default("browsers", ["chrome"])
-        .default("screens", ["large"])
+        .default("browsers", [])
+        .default("screens", [])
         .default("devices", [])
         .default("specs", defaultSpecs)
         .default("maxInstances", 1)
@@ -40,7 +40,7 @@ module.exports = function (options, args) {
      * For the provided list of devices, read the config from the json file
      */
     if (parsedArgs.devices.length) {
-        parsedArgs.devices.map(d => deviceList[d]);
+        parsedArgs.devices = parsedArgs.devices.map(d => deviceList[d]);
     }
 
     return parsedArgs;

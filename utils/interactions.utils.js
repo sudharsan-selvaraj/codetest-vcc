@@ -19,7 +19,7 @@ async function getAttribute(element, attributeName) {
 }
 
 async function getHexColor(element) {
-    let colorObj = await getColor(element, "color");
+    let colorObj = await getColor(element);
     return colorObj.parsed.hex;
 }
 
@@ -31,9 +31,11 @@ async function getCssProperty(element, property) {
     return (await resolveElement(element)).getCSSProperty(property);
 }
 
-async function scrollIntoView(element) {
+async function scrollIntoView(element, ignoreBalance) {
      await (await resolveElement(element)).scrollIntoView();
-     await browser.execute("window.scrollBy(0, -100);");
+     if(!ignoreBalance) {
+         await browser.execute("window.scrollBy(0, -100);");
+     }
 }
 
 async function mouseHover(element) {
@@ -43,6 +45,16 @@ async function mouseHover(element) {
 async function getCurrentUrl() {
     return browser.getUrl();
 }
+
+async function dragAndDrop(originElement, destinationElement) {
+    return await (await resolveElement(originElement))
+        .dragAndDrop(await resolveElement(destinationElement));
+}
+
+async function getLocation(originElement) {
+    return await (await resolveElement(originElement)).getLocation();
+}
+
 
 /* internal method */
 async function resolveElement(element) {
@@ -61,4 +73,6 @@ module.exports = {
     mouseHover: mouseHover,
     scrollIntoView: scrollIntoView,
     getCurrentUrl: getCurrentUrl,
+    dragAndDrop: dragAndDrop,
+    getLocation: getLocation,
 }

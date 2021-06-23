@@ -1,7 +1,8 @@
+const {using} = require('../../utils/jasmine.utils');
 const CampaignPage = require('../../pages/campaign');
 const {click, getCurrentUrl} = require('../../utils/interactions.utils');
+const data = require("./../../app-data.json");
 
-const TimelineReporter = require('wdio-timeline-reporter').default;
 
 describe('Volvo campaign page', () => {
 
@@ -31,7 +32,7 @@ describe('Volvo campaign page', () => {
             expect(await CampaignPage.IntroVideoSection.checkYoutubePlayerDisplayed())
                 .toBeTruthy("Embeded youtube player not displayed")
 
-            expect(await CampaignPage.IntroVideoSection.getYoutubeVideoUrl()).toEqual(browser.data.userStoryYoutubeVideoUrl)
+            expect(await CampaignPage.IntroVideoSection.getYoutubeVideoUrl()).toEqual(data.campaignPage.userStoryYoutubeVideoUrl)
         });
 
     });
@@ -62,6 +63,45 @@ describe('Volvo campaign page', () => {
                 expect(await getCurrentUrl()).toContain("/car-safety");
             });
         });
+
+    });
+
+    describe("Explore models sections", function () {
+
+        beforeAll(async function () {
+            await CampaignPage.open();
+            await browser.pause(2000);
+        });
+
+        it("should have heading as \"Explore our models\"", async function () {
+            expect(await CampaignPage.ExploreSection.getHeading()).toEqual("Explore our models");
+        });
+
+        using(data.campaignPage.models, (model, index) => {
+
+            describe(`should display ${model.name} car`, function () {
+
+                var self = this;
+                beforeAll(async function () {
+                    self.carModel = await CampaignPage.ExploreSection.getModel(index, true);
+                    await browser.pause(2000);
+                })
+
+                it(`with category as ${model.category}`, async function () {
+                    expect(await self.carModel.categoryName()).toEqual(model.category);
+                });
+
+                it(`with name as ${model.name}`, async function () {
+                    expect(await self.carModel.modelName()).toEqual(model.name);
+                });
+
+                it(`with recharge type as ${model.rechargeType}`, async function () {
+                    expect(await self.carModel.rechargeType()).toEqual(model.rechargeType);
+                });
+
+            })
+
+        })
 
     });
 
