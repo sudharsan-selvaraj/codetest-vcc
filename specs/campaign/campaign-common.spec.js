@@ -1,8 +1,10 @@
-const {using, isExecutedOnMobile} = require('../../utils/test.utils');
-const CampaignPage = require('../../pages/campaign');
+const {using, isSmallScreen} = require('../../utils/test.utils');
 const {click, getCurrentUrl} = require('../../utils/interactions.utils');
+const {checkFullPageScreen} = require("../../utils/visual-regression.utils");
+
 const data = require("./../../app-data.json");
 
+const CampaignPage = require('../../pages/campaign');
 
 describe('Volvo campaign page', () => {
 
@@ -40,6 +42,7 @@ describe('Volvo campaign page', () => {
     describe("Callouts section", function () {
 
         describe("Learn more about car safety link", function () {
+
             beforeAll(async function () {
                 await CampaignPage.open();
             });
@@ -53,8 +56,8 @@ describe('Volvo campaign page', () => {
                 expect(await CampaignPage.CalloutsSection.getLearnAboutCarLinkColor()).toEqual("#1c6bba");
             });
 
-            if(!isExecutedOnMobile()) {
-                it(`should change the color to #141414 on mouse hover`, async function () {
+            if (!isSmallScreen()) {
+                it("should change the color to #141414 on mouse hover", async function () {
                     expect(await CampaignPage.CalloutsSection.getLearnAboutCarLinkColor(true)).toEqual("#141414");
                 });
             }
@@ -99,11 +102,22 @@ describe('Volvo campaign page', () => {
                     expect(await self.carModel.rechargeType()).toEqual(model.rechargeType);
                 });
 
-            })
+            });
 
         })
 
     });
+
+    describe("visual regression", function () {
+
+        it('full page', async function () {
+            await CampaignPage.open();
+            await browser.pause(2000);
+            await CampaignPage.IntroVideoSection.resetAndPause();
+            expect(await checkFullPageScreen("campaign_page_full")).toEqual(0);
+        });
+
+    })
 
 });
 

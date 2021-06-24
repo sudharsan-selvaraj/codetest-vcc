@@ -14,6 +14,7 @@ module.exports = class CalloutsSection {
     async getLearnAboutCarLinkColor(hover) {
         await scrollIntoView(this.learnAboutCarsElement);
         if (hover) {
+            await browser.pause(1000);
             await mouseHover(this.learnAboutCarsElement);
             await browser.pause(1000);
         }

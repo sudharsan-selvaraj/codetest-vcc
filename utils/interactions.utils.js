@@ -36,6 +36,7 @@ async function scrollIntoView(element, ignoreBalance) {
      if(!ignoreBalance) {
          await browser.execute("window.scrollBy(0, -100);");
      }
+    await browser.pause(1000);
 }
 
 async function mouseHover(element) {

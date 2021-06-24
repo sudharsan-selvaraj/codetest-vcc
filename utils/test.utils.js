@@ -18,5 +18,6 @@ module.exports.isExecutedOnMobile = function () {
 }
 
 module.exports.isSmallScreen = function () {
-    return browser.rawCapability[CapabilityOptions.SCREEN_SIZE] == "small";
+    let capability = browser.rawCapability ? browser.rawCapability : browser.capabilities;
+    return capability[CapabilityOptions.SCREEN_SIZE] == "small";
 }

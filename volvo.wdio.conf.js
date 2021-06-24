@@ -7,7 +7,7 @@ const TEST_ROOT_DIR = "./specs";
 
 const ALLOWED_SCREENS = ["large", "medium", "small"],
     ALLOWED_BROWSERS = ["chrome", "firefox", "safari"],
-    DEFAULT_SPECS = [`${TEST_ROOT_DIR}/**/*-common.spec.js`, `${TEST_ROOT_DIR}/**/*-visual.spec.js`];
+    DEFAULT_SPECS = [`${TEST_ROOT_DIR}/**/*-common.spec.js`];
 
 let capabilities = [],
     args = parseArgs({

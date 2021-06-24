@@ -64,4 +64,8 @@ module.exports = class IntroVideoSection {
     getYoutubeVideoUrl() {
         return getAttribute(this.sectionElement.$css("iframe"), "src")
     }
+
+    async resetAndPause() {
+        await this.introVideo.resetAndPause();
+    }
 }

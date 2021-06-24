@@ -36,7 +36,6 @@ exports.BrowserCapabilityService = class BrowserCapabilityService {
         let browser = capability.browserName;
 
         let newCapability = merge(capability, this.options.defaultOptions[browser] || {});
-
         if (newCapability[exports.CapabilityOptions.MOBILE] != true) {
             if (!newCapability[exports.CapabilityOptions.SCREEN_SIZE]) {
                 newCapability[exports.CapabilityOptions.SCREEN_SIZE] = "large"

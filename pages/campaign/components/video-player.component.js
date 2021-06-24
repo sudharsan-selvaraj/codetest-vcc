@@ -22,4 +22,10 @@ module.exports = class VideoPlayer {
         return this.parent.$css("video").wrappedElement();
     }
 
+    async resetAndPause() {
+        await browser.execute(function (){
+            arguments[0].pause();
+            arguments[0].currentTime = 0;
+        }, await this._getVideoElement());
+    }
 }

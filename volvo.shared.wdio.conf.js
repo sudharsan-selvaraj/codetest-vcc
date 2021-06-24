@@ -1,3 +1,5 @@
+const path = require("path");
+
 const FluentElementService = require("./services/fluent-element.service");
 const {TimelineService} = require('wdio-timeline-reporter/timeline-service');
 const TimelineReporter = require('wdio-timeline-reporter').default;
@@ -30,6 +32,15 @@ exports.config = {
     services: [
         [FluentElementService],
         [TimelineService],
+        ['image-comparison', {
+            baselineFolder: path.join(process.cwd(), './baseline-images/'),
+            formatImageName: '{tag}-{deviceName}-{platformName}-{width}x{height}',
+            screenshotPath: path.join(process.cwd(), '.tmp/'),
+            savePerInstance: true,
+            autoSaveBaseline: true,
+            blockOutStatusBar: true,
+            blockOutToolBar: true,
+        }],
         [BrowserCapabilityService, {
             headlessOptions: {
                 "chrome": {
@@ -64,7 +75,7 @@ exports.config = {
 
     before: (capability, specs) => {
         browser.rawCapability = capability;
-        afterEach( function () {
+        afterEach(function () {
             TimelineReporter.addContext({
                 title: "capability",
                 value: JSON.stringify(capability)
