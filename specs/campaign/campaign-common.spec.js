@@ -1,4 +1,4 @@
-const {using} = require('../../utils/jasmine.utils');
+const {using, isExecutedOnMobile} = require('../../utils/test.utils');
 const CampaignPage = require('../../pages/campaign');
 const {click, getCurrentUrl} = require('../../utils/interactions.utils');
 const data = require("./../../app-data.json");
@@ -17,7 +17,7 @@ describe('Volvo campaign page', () => {
             let initialTime = await CampaignPage.IntroVideoSection.getCurrentTime();
             await browser.pause(2000);
             let currentTime = await CampaignPage.IntroVideoSection.getCurrentTime();
-            expect(currentTime > initialTime)
+            expect(currentTime != initialTime)
                 .toBeTruthy(`Video is not playing. initialTime=${initialTime} and current time=${currentTime}`);
         });
 
@@ -42,7 +42,6 @@ describe('Volvo campaign page', () => {
         describe("Learn more about car safety link", function () {
             beforeAll(async function () {
                 await CampaignPage.open();
-                await browser.pause(2000);
             });
 
             it("should be displayed", async function () {
@@ -54,9 +53,11 @@ describe('Volvo campaign page', () => {
                 expect(await CampaignPage.CalloutsSection.getLearnAboutCarLinkColor()).toEqual("#1c6bba");
             });
 
-            it(`should change the color to #141414 on mouse hover`, async function () {
-                expect(await CampaignPage.CalloutsSection.getLearnAboutCarLinkColor(true)).toEqual("#141414");
-            });
+            if(!isExecutedOnMobile()) {
+                it(`should change the color to #141414 on mouse hover`, async function () {
+                    expect(await CampaignPage.CalloutsSection.getLearnAboutCarLinkColor(true)).toEqual("#141414");
+                });
+            }
 
             it(`should navigate to "/car-safety" page on clicking`, async function () {
                 await click(CampaignPage.CalloutsSection.learnAboutCarsElement);
@@ -84,7 +85,6 @@ describe('Volvo campaign page', () => {
                 var self = this;
                 beforeAll(async function () {
                     self.carModel = await CampaignPage.ExploreSection.getModel(index, true);
-                    await browser.pause(2000);
                 })
 
                 it(`with category as ${model.category}`, async function () {

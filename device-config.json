@@ -1,5 +1,5 @@
 {
-  "chrome_iphone_6s": {
+  "chrome_iphone_6": {
     "browserName": "chrome",
     "opt:screenSize": "small",
     "opt:isMobile": "false",
@@ -9,19 +9,29 @@
       }
     }
   },
-  "oneplus_7T_chrome": {
+  "google_pixel_chrome": {
     "browserName": "chrome",
-    "deviceName": "OnePlus 7T",
     "platformName": "Android",
-    "platformVersion": "10.0",
-    "opt:screenSize": "small"
+    "appium:deviceName": "Google Pixel 3",
+    "appium:platformVersion": "9.0",
+    "opt:screenSize": "small",
+    "bstack:options": {
+      "deviceName": "Google Pixel 3",
+      "realMobile": true,
+      "osVersion": "9.0"
+    }
   },
-  "iphone_12_safari": {
+  "iphone_12_pro_safari": {
     "browserName": "safari",
-    "deviceName": "iPhone 12",
     "platformName": "iOS",
-    "platformVersion": "14",
-    "automationName": "XCUITest",
+    "appium:platformVersion": "14",
+    "appium:deviceName": "iPhone 12",
+    "appium:automationName": "XCUITest",
+    "bstack:options": {
+      "deviceName": "iPhone 12 Pro",
+      "realMobile": true,
+      "osVersion": "14"
+    },
     "opt:screenSize": "small"
   }
 }

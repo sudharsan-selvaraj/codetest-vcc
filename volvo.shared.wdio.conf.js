@@ -1,7 +1,7 @@
 const FluentElementService = require("./services/fluent-element.service");
 const {TimelineService} = require('wdio-timeline-reporter/timeline-service');
 const TimelineReporter = require('wdio-timeline-reporter').default;
-const {BrowserCapabilityService, CapabilityOptions} = require("./services/browser-capabilities.services");
+const {BrowserCapabilityService} = require("./services/browser-capabilities.services");
 
 exports.config = {
 
@@ -56,17 +56,18 @@ exports.config = {
     reporters: [
         ['timeline', {
             outputDir: './report',
-            screenshotStrategy: "on:dsfsdf",
+            screenshotStrategy: "none",
             embedImages: true
         }],
         'spec'
     ],
 
     before: (capability, specs) => {
-        afterEach(function () {
+        browser.rawCapability = capability;
+        afterEach( function () {
             TimelineReporter.addContext({
-                title: "screen-size",
-                value: capability[CapabilityOptions.SCREEN_SIZE]
+                title: "capability",
+                value: JSON.stringify(capability)
             });
         });
     },
