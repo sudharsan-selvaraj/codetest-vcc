@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "wdio run volvo.wdio.conf.js"
+    "docker:zalenium:start": "docker-compose up -d zalenium",
+    "docker:e2e:build": "docker build -t volvo-e2e",
+    "docker:stop": "docker-compose down",
+    "test:local": "wdio run wdio.conf.js",
+    "test:docker": "npm run docker:zalenium:start && docker-compose up e2e"
   },
   "keywords": [],
   "author": "",

@@ -12,4 +12,4 @@ RUN npm install
 ENTRYPOINT [ "npm", "run" ]
 
 #Run the test when the container is started
-CMD ["test"]
+CMD ["test:local"]
