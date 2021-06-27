@@ -64,8 +64,8 @@ npm install
 7. Start the selenium server.
 
 ```java
-npm run webdriver:update
-        npm run webdriver:start
+npm run webdriver:update 
+npm run webdriver:start
 ```
 
 The above command will download and install selenium server jar file and necessary driver executables and starts the
@@ -155,7 +155,7 @@ So we have to use `Async` mode by default to write out tests.
 
 #### Overcoming the problems in Async mode:
 
-It's not clear that by choosing `Async` it is now necessary to introduce `await` keywork before each and every
+It's now clear that by choosing `Async` it is now necessary to introduce `await` keywork before each and every
 asyncronous methods. For example,
 
 ```javascript
@@ -181,23 +181,27 @@ which eliminates the use of await before each element interactions.
 
 ### FluentElement:
 
-WebDriver IO exposed, `$` and `$$` objects to identify the elements from the page.
+WebDriver IO will expose, `$` and `$$` functions to identify the elements from the page.
 
 I have created a new WebDriverIO service `FluentElementService` which exposes, `$f`, `$css`, `$xpath`, `$id`
-, `$linkText`, `$partialLinkText` for easy identification of elements.
+, `$linkText`, `$partialLinkText` functions for easy identification of elements.
 
 Example without using `FluentElement`:
 
 ```javascript
 var loginContainer = await $(".login-container");
 var username = await loginContainer.$("#username");
+var loginButton = await loginContainer.$(".login-button");
 await username.setValue("john");
+await loginButton.click();
+
 ```
 
 Using `FluentElement`:
 
 ```javascript
 await $css(".login-container").$id("username").setValue("John");
+await $css(".login-container").$css(".login-button").click();
 ```
 
 ### Creating the page object:
@@ -266,4 +270,132 @@ The above component can be used in the tests as
 var carModel = await CampaignPage.ExploreSection.getModel(0); // returns the first car model displayed in the carousel
 expect(await self.carModel.categoryName()).toEqual("SUV");
 expect(await self.carModel.modelName()).toEqual("XC90 Recharge");
+```
+
+### Organizing the test:
+
+Since we are dealing with the responsive application, we need to test the behaviour with different screen resolutions in
+different browsers and mobile devices.
+
+So, we need some way to organize the tests based on the screen size to make it flexible during executions.
+
+Example:
+
+To write test for [campaign page](https://www.volvocars.com/intl/v/car-safety/a-million-more), create a folder with
+name  `campaign` under [specs](./test/specs) directory
+
+##### Folder Structure:
+
+```
+.
+└── specs/
+    └── campaign/ (Module name)
+        ├── campaign-common.spec.js
+        ├── campaign-small-screen.spec.js
+        └── campaign-large-medium-screen.spec.js
+```
+
+`campaign-common.spec.js` - tests that are applicable for all screen sizes
+`campaign-small-screen.spec.js` - tests that are only applicable for large and medium screen sizes
+`campaign-large-medium-screen.spec.js` - tests that are only applicable for large and medium screen sizes
+
+By organizing this way, we can easily customise the test execution by just running the specific tests based on the
+screen size.
+
+### Executing the tests:
+
+The framework supports fully customisable execution based on CLI parameters. We can easily execute tests across
+different browsers with different screen resolutions in parallel.
+
+I have currently used 3 different screen resolutions under which the application need to be tested.
+
+1. `large` - 1792x1097 Desktop resolution(macbook pro)
+2. `medium` - 1024x1366 Tab resolution(Ipad pro)
+3. `small` - 375x667 Mobile resolution(Iphone 6s)
+
+Also, i have created a Custom webdriver io
+service [browser-capabilities.services.js](./test/services/browser-capabilities.services.js) that will take care of
+setting the browser screen size during runtime based on the passed screensize
+
+Example:
+
+```shell
+   npm run test --browsers "chrome" --screens "large,small"
+```
+
+The above command will open two different browsers with screensize `1792x1097` and `375x667` and executes the test
+respectively.
+
+We can also reuse the tests to be executed in browsers installed on real mobile devices.
+
+Create a new mobile config in [device-config.json](./device-config.json) file and pass `--devices <device name>` to run
+the tests in specific device
+
+```json
+{
+  "google_pixel_chrome": {
+    "browserName": "chrome",
+    "platformName": "Android",
+    "appium:deviceName": "Google Pixel 3",
+    "appium:platformVersion": "9.0",
+    "opt:screenSize": "small",
+    "bstack:options": {
+      "deviceName": "Google Pixel 3",
+      "realMobile": true,
+      "osVersion": "9.0"
+    }
+  },
+  "iphone_12_pro_safari": {
+    "browserName": "safari",
+    "platformName": "iOS",
+    "appium:platformVersion": "14",
+    "appium:deviceName": "iPhone 12",
+    "appium:automationName": "XCUITest",
+    "bstack:options": {
+      "deviceName": "iPhone 12 Pro",
+      "realMobile": true,
+      "osVersion": "14"
+    },
+    "opt:screenSize": "small"
+  }
+}
+```
+
+`opt:screenSize": "small"` value inside the device config object will be used to determine what are all the tests that
+need to be executed for the specific browser.
+
+```shell
+npm run test --browsers "chrome" --screens "large,small" --devices "iphone_12_pro_safari,google_pixel_chrome"
+```
+
+To run the browsers in headless mode, pass `--headless` as additional flag.
+
+The above command will open two different browsers with screensize `1792x1097` and `375x667` and launches chrome
+in `Google pixel` and safari in `IPhone 12 pro` executes the test respectively.
+
+1. Browser launched with large screen resolution will
+   execute `[campaign-common.spec.js, campaign-large-medium-screen.spec.js]`
+2. Browser launched with small screen resolution will execute `[campaign-common.spec.js, campaign-small-screen.spec.js]`
+3. Browser launched in mobile with small screen resolution will
+   execute `[campaign-common.spec.js, campaign-small-screen.spec.js]`
+
+#### Sample execution demo:
+
+<p align="center">
+<img src="./docs/assets/execution_demo.gif">
+</p>
+The logic for determining the spec is as below. Refer [wdio.conf.js](./wdio.conf.js)
+
+```javascript
+args.browsers.forEach(function (browser) {
+    args.screens.forEach(function (screen) {
+        capabilities.push({
+            browserName: browser,
+            [CapabilityOptions.HEADLESS]: args.headless,
+            [CapabilityOptions.SCREEN_SIZE]: screen,
+            maxInstances: args.maxInstances,
+            specs: merge(args.specs, [`${TEST_ROOT_DIR}/**/*${screen}*screen.spec.js`])
+        })
+    });
+});
 ```
