@@ -16,7 +16,7 @@ services:
     volumes:
       - ./report:/usr/volvo/test/report
       - ./.tmp:/usr/volvo/test/.tmp
-      - ./baseline-imagesp:/usr/volvo/test/.tmp
+      - ./baseline-images:/usr/volvo/test/baseline-images
     environment:
       - BROWSERS
       - SCREENS
@@ -26,7 +26,7 @@ services:
 
   zalenium:
     image: dosel/zalenium
-    container_name: zalenium
+    container_name: zalenium-e2e
     tty: true
     volumes:
       - video:/home/seluser/videos
