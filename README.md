@@ -123,33 +123,82 @@ Currently, webdriver IO supports two modes of execution,
 1. Sync
 2. Async
 
-### Async mode:
+#### Async mode:
 
 In async mode, We need to explicitly add async/await statement before each method calls to make our test wait for the
 response from the brpwser. Sample code using await keyword
 
 ```javascript
-async function SearchGoogle(){
-   await browser.url("https://www.google.com/");
-   await (await $("*[name='q']")).sendKeys("WebdriverIO");
-   expect(await $("*[name='q']").getValue()).toEqual("WebDriverIO");
+async function SearchGoogle() {
+    await browser.url("https://www.google.com/");
+    await (await $("*[name='q']")).sendKeys("WebdriverIO");
+    expect(await $("*[name='q']").getValue()).toEqual("WebDriverIO");
 }
 ```
 
 #### Sync Mode:
 
 If you're using @wdio/sync then you can avoid awaiting for command calls. That means, Webdriver IO has inbuilt
-capability(with the help of [node-fiber](https://www.npmjs.com/package/fibers) ) to wait till response is reutned from async methods,
-Sample code using sync mode:
+capability(with the help of [node-fiber](https://www.npmjs.com/package/fibers) ) to wait till response is reutned from
+async methods, Sample code using sync mode:
+
 ```javascript
-function SearchGoogle(){
-   browser.url("https://www.google.com/");
-   $("*[name='q']").sendKeys("WebdriverIO");
-   expect($("*[name='q']").getValue()).toEqual("WebDriverIO");
+function SearchGoogle() {
+    browser.url("https://www.google.com/");
+    $("*[name='q']").sendKeys("WebdriverIO");
+    expect($("*[name='q']").getValue()).toEqual("WebDriverIO");
 }
 ```
-🚨 But, As of 14/04/2021 sync mode will not be supported anymore starting from Node.js v16 due to changes in Chromium. 
+
+🚨 But, As of 14/04/2021 sync mode will not be supported anymore starting from Node.js v16 due to changes in Chromium.
 So we have to use `Async` mode by default to write out tests.
+
+#### Overcoming the problems in Async mode:
+
+It's not clear that by choosing `Async` it is now necessary to introduce `await` keywork before each and every
+asyncronous methods. For example,
+
+```javascript
+$(".username").setValue("john");
+```
+
+The above code will throw `$(...).setValue is not a function`. To fix this, we need to wrap it with `await` keyword
+
+```javascript
+await (await $(".username")).setValue("john");
+```
+
+Also, it is impossible to chain the element selector to find hierarchical elements.
+
+```javascript
+$(".login-container").$(".username").setValue("john");
+```
+
+The above line of code will not work.
+
+To overcome this problem, I have created a new wrapper class [FluentElement](./test/services/fluent-element.service.js)
+which eliminates the use of await before each element interactions.
+
+### FluentElement:
+
+WebDriver IO exposed, `$` and `$$` objects to identify the elements from the page.
+
+I have created a new WebDriverIO service `FluentElementService` which exposes, `$f`, `$css`, `$xpath`, `$id`
+, `$linkText`, `$partialLinkText` for easy identification of elements.
+
+Example without using `FluentElement`:
+
+```javascript
+var loginContainer = await $(".login-container");
+var username = await loginContainer.$("#username");
+await username.setValue("john");
+```
+
+Using `FluentElement`:
+
+```javascript
+await $css(".login-container").$id("username").setValue("John");
+```
 
 ### Creating the page object:
 
