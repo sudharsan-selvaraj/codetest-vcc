@@ -1,9 +1,9 @@
 const merge = require("deepmerge");
 const parseArgs = require("./args-parser");
-const {CapabilityOptions} = require("./services/browser-capabilities.services");
+const {CapabilityOptions} = require("./test/services/browser-capabilities.services");
 const sharedConfig = require("./volvo.shared.wdio.conf");
 
-const TEST_ROOT_DIR = "./specs";
+const TEST_ROOT_DIR = "./test/specs";
 
 const ALLOWED_SCREENS = ["large", "medium", "small"],
     ALLOWED_BROWSERS = ["chrome", "firefox", "safari"],

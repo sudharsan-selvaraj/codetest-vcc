@@ -20,6 +20,13 @@ module.exports = function (options, args) {
             return true;
         });
 
+    ["browsers", "screens", "devices"]
+        .forEach(function (k) {
+            if (args[k] && args[k].length == 1 && args[0].includes(",")) {
+                args[k] = args[0].split(",")
+            }
+        })
+
     let parsedArgs = yargs
         // define args types
         .array("screens")

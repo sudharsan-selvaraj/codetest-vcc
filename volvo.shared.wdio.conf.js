@@ -1,9 +1,9 @@
 const path = require("path");
 
-const FluentElementService = require("./services/fluent-element.service");
+const FluentElementService = require("./test/services/fluent-element.service");
 const {TimelineService} = require('wdio-timeline-reporter/timeline-service');
 const TimelineReporter = require('wdio-timeline-reporter').default;
-const {BrowserCapabilityService} = require("./services/browser-capabilities.services");
+const {BrowserCapabilityService} = require("./test/services/browser-capabilities.services");
 
 exports.config = {
 

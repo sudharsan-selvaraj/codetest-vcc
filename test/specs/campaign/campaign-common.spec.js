@@ -2,7 +2,7 @@ const {using, isSmallScreen} = require('../../utils/test.utils');
 const {click, getCurrentUrl} = require('../../utils/interactions.utils');
 const {checkFullPageScreen} = require("../../utils/visual-regression.utils");
 
-const data = require("./../../app-data.json");
+const data = require("../../../app-data.json");
 
 const CampaignPage = require('../../pages/campaign');
 

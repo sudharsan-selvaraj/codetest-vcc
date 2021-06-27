@@ -1,5 +1,3 @@
-# Usage:
-#   docker-compose up --force-recreate
 version: '2.1'
 
 volumes:
@@ -7,10 +5,28 @@ volumes:
     name: videos
 
 services:
+  e2e:
+    image: volvo-e2e
+    build: ""
+    command: >
+      test -- --browsers ${BROWSERS}
+      --screens ${SCREENS}
+      --devices ${DEVICES}
+      --hostname zalenium
+    volumes:
+      - ./report:/usr/volvo/test/report
+      - ./.tmp:/usr/volvo/test/.tmp
+      - ./baseline-imagesp:/usr/volvo/test/.tmp
+    environment:
+      - BROWSERS
+      - SCREENS
+      - DEVICES
+    depends_on:
+      - zalenium
+
   zalenium:
     image: dosel/zalenium
     container_name: zalenium
-    hostname: zalenium
     tty: true
     volumes:
       - video:/home/seluser/videos
@@ -25,8 +41,14 @@ services:
             --timeZone "Europe/Berlin"
             --startTunnel true
             --browserStackEnabled true
+            --debugEnabled true
     environment:
       - PULL_SELENIUM_IMAGE=true
       - PORT=4444
       - BROWSER_STACK_USER
       - BROWSER_STACK_KEY
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4444/wd/hub" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5

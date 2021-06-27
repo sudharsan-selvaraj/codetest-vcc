@@ -1,5 +1,5 @@
 const CampaignPage = require('../../pages/campaign');
-const data = require("./../../app-data.json");
+const data = require("../../../app-data.json");
 
 describe('Volvo campaign page', () => {
 
