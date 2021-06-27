@@ -8,7 +8,9 @@
     "docker:e2e:build": "docker build -t volvo-e2e",
     "docker:stop": "docker-compose down",
     "test:local": "wdio run wdio.conf.js",
-    "test:docker": "npm run docker:zalenium:start && docker-compose up e2e"
+    "test:docker": "npm run docker:zalenium:start && docker-compose up e2e",
+    "webdriver:update" : "webdriver-manager update",
+    "webdriver:start": "webdriver-manager start"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "deepmerge": "^4.2.2",
     "wdio-image-comparison-service": "^2.3.0",
     "wdio-timeline-reporter": "^5.1.4",
+    "webdriver-manager": "^12.1.8",
     "yargs": "^17.0.1"
   }
 }
