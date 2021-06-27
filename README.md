@@ -44,13 +44,13 @@
 3. Clone the repo to the local machine
 
    ```java
-   git clone 
+   git clone https://github.com/sudharsan-selvaraj/codetest-vcc.git
    ```
 
 4. Change the working directory to the cloned repo
 
    ```
-   cd 
+   cd codetest-vcc
    ```
 
 5. Install the dependencies
@@ -406,7 +406,7 @@ args.browsers.forEach(function (browser) {
 Once the tests are executed, HTML report will be generated along with the screenshots for the failed tests.
 
 Check the sample
-report [Execution Report](https://htmlpreview.github.io/?https://github.com/codetest-vcc/docs/report.html) (It will take
+report [Execution Report](https://htmlpreview.github.io/?https://github.com/sudharsan-selvaraj/codetest-vcc/blob/main/docs/report.html) (It will take
 approx 30-60s to open the HTML file)
 
 Webdriver IO provides customizable options to generate customized reports based on the project needs. So we can easily
