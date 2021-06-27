@@ -409,6 +409,10 @@ Check the sample
 report [Execution Report](https://htmlpreview.github.io/?https://github.com/sudharsan-selvaraj/codetest-vcc/blob/main/docs/report.html) (It will take
 approx 30-60s to open the HTML file)
 
+<p align="center">
+   <img src="./docs/assets/report.png">
+</p>
+
 Webdriver IO provides customizable options to generate customized reports based on the project needs. So we can easily
 tweek any existing reporting framework and create our own report based on the requirements.
 
@@ -455,3 +459,23 @@ Advantages:
    docker-compose up e2e
    ```
    Above command will build the e2e docker image if not present already and will execute the tests.
+   
+   Dockerfile used to build the docker image is
+   ```dockerfile
+   FROM node:14.17.1
+
+   #Set the current working directory
+   WORKDIR /usr/volvo/test
+   
+   #Copy all src files from machine into docker image
+   COPY . /usr/volvo/test
+   
+   #install npm dependencies
+   RUN npm install
+   
+   ENTRYPOINT [ "npm", "run" ]
+   
+   #Run the test when the container is started
+   CMD ["test:local"]
+
+   ```

@@ -2,7 +2,6 @@ node_modules
 .idea
 .tmp
 report
-wdio.conf.js
 wdio-volvo.iml
 Dockerfile
 .dockerignore

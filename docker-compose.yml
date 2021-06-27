@@ -9,7 +9,7 @@ services:
     image: volvo-e2e
     build: ""
     command: >
-      test -- --browsers ${BROWSERS}
+      test:local -- --browsers ${BROWSERS}
       --screens ${SCREENS}
       --devices ${DEVICES}
       --hostname zalenium
