@@ -43,39 +43,39 @@
 
 3. Clone the repo to the local machine
 
-```java
-git clone 
-```
+   ```java
+   git clone 
+   ```
 
 4. Change the working directory to the cloned repo
 
-```
-cd 
-```
+   ```
+   cd 
+   ```
 
 5. Install the dependencies
 
-```
-npm install
-```
+   ```
+   npm install
+   ```
 
 6. Install required browsers (eg. chrome or firefox)
 
 7. Start the selenium server.
 
-```java
-npm run webdriver:update 
-npm run webdriver:start
-```
+   ```java
+   npm run webdriver:update 
+   npm run webdriver:start
+   ```
 
 The above command will download and install selenium server jar file and necessary driver executables and starts the
 selenium server at `http://localhost:4444/wd/hub`
 
 8. Run the tests
 
-```java
-npm run test
-```
+   ```java
+   npm run test
+   ```
 
 ## Framework overview:
 
@@ -382,8 +382,16 @@ in `Google pixel` and safari in `IPhone 12 pro` executes the test respectively.
 #### Sample execution demo:
 
 <p align="center">
-<img src="./docs/assets/execution_demo.gif">
+<img src="./docs/assets/execution_demo.gif"/>
 </p>
+
+#### Reports:
+
+Once the tests are executed, HTML report will be generated along with the screenshots for the failed tests.
+
+
+Check the sample report [Execution Report](https://htmlpreview.github.io/?https://github.com/codetest-vcc/docs/report.html)
+
 The logic for determining the spec is as below. Refer [wdio.conf.js](./wdio.conf.js)
 
 ```javascript
@@ -399,3 +407,44 @@ args.browsers.forEach(function (browser) {
     });
 });
 ```
+
+### Docker Setup:
+
+I have used [`Zalenium`](https://opensource.zalando.com/zalenium/) framework for running selenium tests inside docker conatiners
+
+Advantages:
+1. Zalenium supports auto-scaling of selenium nodes based on the request received from the tests. 
+2. Supports proxy for various cloud providers (Browserstack, sauce labs, etc)
+3. Provided ability see the live test execution using no-vnc service.
+
+### Execution steps
+
+1. Make sure the docker service is up and running by typing the below command
+   ```shell
+   docker -v
+   ```
+
+2. Update the values in [.env](./.env) file
+   ```dotenv
+   BROWSER_STACK_USER=broserstack_username
+   BROWSER_STACK_KEY=broserstack_key
+   BROWSERS="chrome,firefox"
+   SCREENS="small,medium,large"
+   DEVICES="google_pixel_chrome,chrome_iphone_6"
+   ```
+   
+3. Start the zalenium service
+   ```shell
+   docker-compose up -d zalenium
+   ```
+   Above command will pull `elgalu/selenium` and `dosel/zalenium` docker images and will start the selenium server at `https://localhost:4444/wd/hub`
+   on opening `http//localhost:4444/wd/hub`, you can see the selenium grid with 3 nodes
+   <p align="center">
+   <img src="./docs/assets/zalenium-console.png"/>
+   </p>
+
+3. Run tests
+   ```shell
+   docker-compose up e2e
+   ```
+   Above command will build the e2e docker image if not present already and will execute the tests.

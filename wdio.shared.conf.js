@@ -67,7 +67,7 @@ exports.config = {
     reporters: [
         ['timeline', {
             outputDir: './report',
-            screenshotStrategy: "none",
+            screenshotStrategy: "on:error",
             embedImages: true
         }],
         'spec'
